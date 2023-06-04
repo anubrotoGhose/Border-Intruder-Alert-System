@@ -2,27 +2,18 @@ import cv2
 import numpy as np
 import datetime
 import pygame
-
-# Initialize webcam
 camera = cv2.VideoCapture(0)
-
-# Create background subtractor object
 background_subtractor = cv2.createBackgroundSubtractorMOG2()
-
-# Set threshold for motion detection
 threshold = 10
 alarm_status = False
 
-# Set motion threshold
 motion_threshold = 2
 min_area = 500
 
-# Set time threshold (seconds)
 time_threshold = 2
 
-#initialize pygame mixer
 pygame.init()
-alarm_sound = pygame.mixer.Sound("C:\\Users\\anubr\\Documents\\Inter Fall Semester 22-23\\IOT Project\\Code\\alarm.wav")
+alarm_sound = pygame.mixer.Sound("Intruder-alert.mp3")
 alarm_channel = pygame.mixer.Channel(1)
 
 def disarm_alarm(x):
@@ -36,7 +27,6 @@ cv2.createTrackbar("Disarm", "Alarm", 0, 1, disarm_alarm)
 
 def alarm_control(contours):
     global alarm_status
-    # initialize variables to keep track of motion
     motion = 0
     total_area = 0
     for contour in contours:
@@ -55,12 +45,9 @@ def alarm_control(contours):
         print("No motion detected, alarm OFF")
     return alarm_status
 
-# keep track of time when motion was last detected
 last_motion_time = datetime.datetime.now()
 
-# Loop over frames from the video stream
 while True:
-    # Read a frame from the video stream
     _, frame = camera.read()
 
     # Apply background subtraction to frame
