@@ -1,7 +1,7 @@
 import cv2
 from tracker import *
 import datetime
-# import pygame
+import pygame
 # Create tracker object
 
 class DetectionAndTracking:
@@ -16,9 +16,9 @@ class DetectionAndTracking:
         self.background_subtractor = cv2.createBackgroundSubtractorMOG2()
 
         #initialize pygame mixer
-        # pygame.init()
-        # self.alarm_sound = pygame.mixer.Sound("C:\\Users\\anubr\\Documents\\Inter Fall Semester 22-23\\IOT Project\\Code\\alarm.wav")
-        # self.alarm_channel = pygame.mixer.Channel(1)
+        pygame.init()
+        self.alarm_sound = pygame.mixer.Sound("C:\\Users\\anubr\\Documents\\Inter Fall Semester 22-23\\IOT Project\\Code\\alarm.wav")
+        self.alarm_channel = pygame.mixer.Channel(1)
 
         # Object detection from Stable camera
     
@@ -58,7 +58,7 @@ class DetectionAndTracking:
                 motion += 1
         if motion > self.motion_threshold and total_area > self.min_area:
             if not alarm_status:
-                # self.alarm_channel.play(self.alarm_sound)
+                self.alarm_channel.play(self.alarm_sound)
                 alarm_status = True
                 print("Motion detected, alarm ON!")
         else:
@@ -103,7 +103,7 @@ class DetectionAndTracking:
             else:
                 # check if alarm has been on for more than time_threshold seconds
                 if (datetime.datetime.now() - last_motion_time).seconds > self.time_threshold:
-                    # self.alarm_channel.stop()
+                    self.alarm_channel.stop()
                     alarm_status = False
                     print("Alarm OFF")
 
@@ -150,4 +150,4 @@ class DetectionAndTracking:
                 break
         
         self.cap.release()
-        cv2.destroyAllWindows()    
+        cv2.destroyAllWindows()
